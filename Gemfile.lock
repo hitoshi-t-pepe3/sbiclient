@@ -1,0 +1,60 @@
+GIT
+  remote: git://github.com/hitoshi-t-pepe3/clickclient_scrap.git
+  revision: 7c070a6064f8f564daa2fc97c9ef934330602311
+  specs:
+    clickclient_scrap (0.1.11)
+      mechanize (= 1.0.0)
+
+GIT
+  remote: git://github.com/hitoshi-t-pepe3/jiji.git
+  revision: 4252d3f0ad49f3b1f68309d233c1a9537dac3220
+  specs:
+    jiji (1.2.8)
+      clickclient_scrap (>= 0.1.9)
+      highline (= 1.5.0)
+      httpclient (>= 2.1.5)
+      needle (= 1.3.0)
+      ruby-json (= 1.1.2)
+      rubyzip (= 0.9.1)
+      sbiclient (>= 0.1.1)
+      uuidtools (= 2.0.0)
+
+PATH
+  remote: .
+  specs:
+    sbiclient (0.1.5)
+      mechanize (>= 1.0.0)
+
+GEM
+  remote: http://www.rubygems.org/
+  specs:
+    diff-lcs (1.2.4)
+    highline (1.5.0)
+    httpclient (2.3.4.1)
+    mechanize (1.0.0)
+      nokogiri (>= 1.2.1)
+    mini_portile (0.5.1)
+    needle (1.3.0)
+    nokogiri (1.6.0-x86-mingw32)
+      mini_portile (~> 0.5.0)
+    rspec (2.14.1)
+      rspec-core (~> 2.14.0)
+      rspec-expectations (~> 2.14.0)
+      rspec-mocks (~> 2.14.0)
+    rspec-core (2.14.5)
+    rspec-expectations (2.14.3)
+      diff-lcs (>= 1.1.3, < 2.0)
+    rspec-mocks (2.14.3)
+    ruby-json (1.1.2)
+    rubyzip (0.9.1)
+    uuidtools (2.0.0)
+
+PLATFORMS
+  x86-mingw32
+
+DEPENDENCIES
+  clickclient_scrap!
+  jiji!
+  rspec
+  sbiclient!
+  uuidtools

@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'jiji/plugin/securities_plugin'
+require 'jiji/models/position'
 require 'sbiclient'
 require 'thread'
 
@@ -55,25 +56,56 @@ class SBISecuritiesPlugin
     }
   end
   
-  #成り行きで発注を行います。
-  def order( pair, sell_or_buy, count )
-    
+  # 発注を行います。
+  def order( pair, sell_or_buy, count, options = {})
+    # 注文一覧を取得
+    before_order = @session.list_orders.inject(Set.new){|s,i|
+      s << i[0]; s 
+    }
     # 建玉一覧を取得
     before = @session.list_positions.inject( Set.new ) {|s,i| s << i[0]; s }
+
     # 発注
-    @session.order( pair, sell_or_buy == :buy ? SBIClient::FX::BUY : SBIClient::FX::SELL,  count )
-    # 建玉を特定
+    order = @session.order( pair,
+      sell_or_buy == :buy ? SBIClient::FX::BUY : SBIClient::FX::SELL,
+      count, options)
+
     position = nil
-    # 10s待っても取得できなければあきらめる
-    20.times {|i|
-      sleep 0.5
-      position = @session.list_positions.find {|i| !before.include?(i[0]) }
-      break if position
-    }
-    raise "order fialed." unless position
-    return JIJI::Plugin::SecuritiesPlugin::Position.new( position[1].position_id )
+    
+    # 成り行き
+    if options.empty? then
+      # 建玉を特定
+      20.times {|i|
+        sleep 0.5
+        position = @session.list_positions.find {|i|
+          !before.include?(i[0]) 
+        }
+        break if position
+      }
+      raise "order fialed." unless position
+    end
+    
+    p = JIJI::Models::Position.new(
+        position ?  position[1].position_id : "99999",
+        sell_or_buy,
+        count,
+        1, # units
+        Time.now, # date
+        1, # rates
+        pair,
+        "", # trader
+        nil, # operator
+        position ?  position[1].position_id : "", # open_interest_no
+        order.order_no
+    )
+    return p
   end
   
+  # 注文をキャンセルします。
+  def cancel_order( order_no )
+    @session.cancel_order(order_no) 
+  end
+      
   #建玉を決済します。
   def commit( position_id, count )
     @session.settle( position_id, count )

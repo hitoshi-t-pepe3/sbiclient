@@ -39,4 +39,41 @@ describe "jiji plugin" do
       @plugin.destroy_plugin
     end
   end
+
+  it "売り IFD 指値-指値" do
+    @plugin.should_not be_nil
+    @plugin.display_name.should == "SBI Securities"
+    
+    begin
+      @plugin.init_plugin( {:user=>USER, :password=>PASS, :trade_password=>ORDER_PASS}, @logger )
+
+      # 利用可能な通貨ペア一覧とレート
+      pairs = @plugin.list_pairs
+      rates =  @plugin.list_rates
+
+      pp rates[SBIClient::FX::MSDJPY]
+      pp rates[SBIClient::FX::MSDJPY].bid + 0.005
+
+      # 買い
+      sell  = @plugin.order( :MSDJPY, :sell, 1, { 
+        :rate => rates[SBIClient::FX::MSDJPY].bid + 0.005,
+        :settle => {
+          :rate => rates[SBIClient::FX::MSDJPY].ask - 0.040,
+          :execution_expression => SBIClient::FX::EXECUTION_EXPRESSION_LIMIT_ORDER
+        },
+        :execution_expression => SBIClient::FX::EXECUTION_EXPRESSION_LIMIT_ORDER,
+        :expiration_type => SBIClient::FX::EXPIRATION_TYPE_TODAY
+      })
+      sell.position_id.should_not be_nil
+
+      sleep 1
+
+      # FIXME cancel order
+      @plugin.cancel_order(sell.order_no)
+      # 約定
+      # @plugin.commit buy.position_id, 1
+    ensure
+      @plugin.destroy_plugin
+    end
+  end
 end
