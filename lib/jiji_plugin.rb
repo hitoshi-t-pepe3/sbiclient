@@ -30,6 +30,7 @@ class SBISecuritiesPlugin
   def init_plugin( props, logger ) 
     @session = SBISecuritiesPluginSession.new( props, logger )
   end
+  
   #プラグインを破棄します。
   def destroy_plugin
     @session.close
@@ -72,7 +73,7 @@ class SBISecuritiesPlugin
 
     position = nil
     
-    # 成り行き
+    # 成り行き注文の場合
     if options.empty? then
       # 建玉を特定
       20.times {|i|
@@ -109,6 +110,14 @@ class SBISecuritiesPlugin
   #建玉を決済します。
   def commit( position_id, count )
     @session.settle( position_id, count )
+  end
+  
+  #=== 注文一覧を取得します。
+  #
+  #戻り値:: 注文番号をキーとするClickClientScrap::FX::Orderのハッシュ。
+  #
+  def list_orders()
+    @session.list_orders
   end
 
 private 
