@@ -39,8 +39,14 @@ class SBISecuritiesPlugin
   #利用可能な通貨ペア一覧を取得します。
   def list_pairs
     return ALL_PAIRS.map {|pair|
+      # FIXME 小数点、最小取引数量をせっていること
+      # FIXME Piarの修正は、ref://jiji/lib/jiji/plugin/secorities_plugin.rb
       count = 10000
-      if pair == SBIClient::FX::MSDJPY  || pair == SBIClient::FX::MURJPY || pair == SBIClient::FX::MBPJPY  || pair == SBIClient::FX::MUDJPY || pair == SBIClient::FX::MZDJPY
+      if pair == SBIClient::FX::MSDJPY ||
+         pair == SBIClient::FX::MURJPY ||
+         pair == SBIClient::FX::MBPJPY ||
+         pair == SBIClient::FX::MUDJPY ||
+         pair == SBIClient::FX::MZDJPY
           count = 1000 
       elsif pair == SBIClient::FX::ZARJPY 
           count = 100000
@@ -116,7 +122,7 @@ class SBISecuritiesPlugin
   #
   #戻り値:: 注文番号をキーとするClickClientScrap::FX::Orderのハッシュ。
   #
-  def list_orders()
+  def list_orders
     @session.list_orders
   end
 

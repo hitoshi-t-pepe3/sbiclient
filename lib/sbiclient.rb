@@ -245,7 +245,7 @@ module SBIClient
       #
       #戻り値:: 注文番号をキーとするClickClientScrap::FX::Orderのハッシュ。
       #
-      def list_orders(  )
+      def list_orders
         tmp = {}
         each_order_page {|result|
           list = result.body.toutf8.scan( /<A href="[^"]*&meigaraId=([a-zA-Z0-9\/]*)[^"]*">[^<]*<\/A>\s*<BR>\s*受付時間:<BR>\s*([^<]*)<BR>\s*注文パターン:([^<]+)<BR>\s*([^<]+)<BR>\s*注文番号:(\d+)<BR>\s*注文価格:([^<]+)<BR>(?:\s*トレール幅:([^<]*)<BR>)?\s*約定価格:([^<]*)<BR>\s*数量\(未約定\):<BR>\s*(\d+)\(\d+\)単位<BR>\s*発注状況:([^<]*)<BR>/)
