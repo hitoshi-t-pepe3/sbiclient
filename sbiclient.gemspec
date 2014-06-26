@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   ]+Dir.glob( "lib/*" )+spec.test_files
   spec.has_rdoc = true
   spec.rdoc_options << "--main" << "README"
-  spec.add_dependency('mechanize', '>= 1.0.0')
+  spec.add_dependency('mechanize', '~> 2.7.3')
   spec.add_dependency('nokogiri', '= 1.4.3.1')
   spec.extra_rdoc_files = ["README"]
 end

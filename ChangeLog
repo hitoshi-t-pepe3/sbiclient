@@ -1,5 +1,8 @@
 2014-06-27 0.1.x
     * Mechanize使用時に、ssl_versionをTLSv1を強制的に使用する様に修正
+    * Ruby1.9系対応のため、mechanizeを2.7へバージョンアップ。 
+	* jijii、clickclient_scrap.gitの参照先のmechanizeの
+	  バージョンを同じように修正し、修正ブランチを個別に準備。
 
 2013-10-11 0.1.5beta1
     * 指値、逆指値注文をjiji_pluginを介して利用できるようにした（暫定的）
