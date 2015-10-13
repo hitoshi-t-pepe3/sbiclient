@@ -62,6 +62,9 @@ module SBIClient
         'KDDI-CA39 UP.Browser/6.2.0.13.1.5 (GUI) MMP/2.0'
       @client.user_agent_alias = "KDDI-CA39"
       @client.ssl_version = 'TLSv1'
+      # @client.verify_mode = OpenSSL::SSL::VERIFY_PEER
+      @client.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      # @client.ca_file = '/usr/local/etc/cacert.pem'
       @host_name = DEFAULT_HOST_NAME
     end
 
